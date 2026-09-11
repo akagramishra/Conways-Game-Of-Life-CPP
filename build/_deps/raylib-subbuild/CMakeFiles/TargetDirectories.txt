@@ -1,3 +1,0 @@
-C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate.dir
-C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/ALL_BUILD.dir
-C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/ZERO_CHECK.dir
