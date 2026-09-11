@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/raylib-populate"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/2ababfbc5bcaa61ee156a0ea4d93291d/raylib-populate.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/f2d917007511043325c247a3a12d344a/raylib-populate-complete.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-build.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-configure.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-download.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-install.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-mkdir.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-patch.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-test.rule"
+		},
+		{
+			"file" : "C:/Users/Akagra Mishra/Desktop/Raylib/Game_Of_Life/build/_deps/raylib-subbuild/CMakeFiles/95a0f107cbdf5c2a9057657883d6f0cb/raylib-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"raylib-populate"
+		],
+		"name" : "raylib-populate"
+	}
+}

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\src\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\src\Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{ECC3F50A-7412-337E-B432-8CAD1BAF7261}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

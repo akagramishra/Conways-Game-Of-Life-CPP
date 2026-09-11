@@ -1,0 +1,8 @@
+================================================================================
+Linker Errors
+Generated: 2026-09-11T17:12:10.124Z
+Total Errors: 1
+================================================================================
+
+[LNK1168] (MSVC)
+cannot open C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\build\bin\Game_Of_Life.exe for writing [C:\Users\Akagra Mishra\Desktop\Raylib\Game_Of_Life\build\Game_Of_Life.vcxproj]
