@@ -4,6 +4,7 @@
 #define GRID_H
 
 #include<raylib.h>
+#include<vector>
 
 
 void DrawGridFunction(int rows, int cols, int cellSize);

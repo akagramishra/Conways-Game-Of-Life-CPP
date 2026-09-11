@@ -1,3 +1,5 @@
+#Ts is written by AI
+
 cmake_minimum_required(VERSION 3.25)
 
 project(Game_Of_Life
