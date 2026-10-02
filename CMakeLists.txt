@@ -1,4 +1,4 @@
-#Ts is written by AI
+#only the CMakeLists.txt is written by AI
 
 cmake_minimum_required(VERSION 3.25)
 
@@ -25,22 +25,65 @@ endforeach()
 
 set(RAYLIB_VERSION 6.0)
 
+# --- Locally installed raylib -------------------------------------------------
+# No network / FetchContent. raylib must already be present on this machine:
+#   1. as an installed CMake package (vcpkg, system prefix, ...), or
+#   2. as a local raylib source tree, built as part of this project.
+set(RAYLIB_DIR "" CACHE PATH
+    "Path to a local raylib source tree (the folder containing src/raylib.h)")
+
+# Let find_package() see vcpkg's installed trees even without the vcpkg toolchain
+# file. The user-wide MSBuild integration injects vcpkg's headers and import
+# libraries anyway, so CMake must resolve raylib to that same copy.
+if(NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+    foreach(_vcpkg_root IN ITEMS "$ENV{VCPKG_ROOT}" "C:/vcpkg" "$ENV{USERPROFILE}/vcpkg")
+        if(_vcpkg_root AND IS_DIRECTORY "${_vcpkg_root}/installed")
+            file(GLOB _vcpkg_trees LIST_DIRECTORIES true "${_vcpkg_root}/installed/*")
+            foreach(_tree IN LISTS _vcpkg_trees)
+                if(IS_DIRECTORY "${_tree}/share")
+                    list(APPEND CMAKE_PREFIX_PATH "${_tree}")
+                endif()
+            endforeach()
+        endif()
+    endforeach()
+endif()
+
 find_package(raylib ${RAYLIB_VERSION} QUIET)
 
-if(NOT raylib_FOUND)
-    include(FetchContent)
+if(raylib_FOUND)
+    message(STATUS "Using installed raylib ${raylib_VERSION} from ${raylib_DIR}")
+else()
+    set(_raylib_candidates
+        "${RAYLIB_DIR}"
+        "$ENV{RAYLIB_DIR}"
+        "$ENV{RAYLIB_PATH}"
+        "C:/raylib/raylib"
+        "$ENV{USERPROFILE}/raylib"
+        "$ENV{HOME}/raylib"
+        "${CMAKE_CURRENT_SOURCE_DIR}/../raylib")
+
+    set(_raylib_src "")
+    foreach(_cand IN LISTS _raylib_candidates)
+        if(_cand AND EXISTS "${_cand}/src/raylib.h" AND EXISTS "${_cand}/CMakeLists.txt")
+            set(_raylib_src "${_cand}")
+            break()
+        endif()
+    endforeach()
+
+    if(NOT _raylib_src)
+        message(FATAL_ERROR
+            "raylib ${RAYLIB_VERSION} was not found locally. "
+            "Install it, or point CMake at your local raylib source tree: "
+            "cmake -B build -DRAYLIB_DIR=<path-to-raylib>")
+    endif()
+
+    message(STATUS "Building local raylib source tree: ${_raylib_src}")
 
     set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
     set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
     set(CUSTOMIZE_BUILD OFF CACHE BOOL "" FORCE)
 
-    FetchContent_Declare(raylib
-        GIT_REPOSITORY https://github.com/raysan5/raylib.git
-        GIT_TAG ${RAYLIB_VERSION}
-        GIT_SHALLOW TRUE
-        GIT_PROGRESS TRUE
-        SYSTEM)
-    FetchContent_MakeAvailable(raylib)
+    add_subdirectory("${_raylib_src}" "${CMAKE_BINARY_DIR}/_raylib" EXCLUDE_FROM_ALL SYSTEM)
 endif()
 
 add_executable(${PROJECT_NAME}
@@ -72,6 +115,13 @@ else()
     target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
+# Place any shared libraries raylib needs next to the executable.
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "$<TARGET_RUNTIME_DLLS:${PROJECT_NAME}>" "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    COMMAND_EXPAND_LISTS
+    COMMENT "Copying runtime dependencies")
+
 if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets")
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -91,6 +141,11 @@ option(HIDE_CONSOLE "Hide the console window in Release builds" ON)
 if(WIN32 AND HIDE_CONSOLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE $<NOT:$<CONFIG:Debug>>)
+    # The GUI subsystem looks for WinMain; keep the standard main() entry point.
+    if(MSVC)
+        target_link_options(${PROJECT_NAME} PRIVATE
+            $<$<NOT:$<CONFIG:Debug>>:/ENTRY:mainCRTStartup>)
+    endif()
 endif()
 
 if(EMSCRIPTEN)

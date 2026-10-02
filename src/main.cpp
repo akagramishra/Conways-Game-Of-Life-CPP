@@ -1,30 +1,68 @@
-#include "Grid.hpp"
+
+#include <iostream>
 #include "Game.hpp"
-#include<iostream>
 #include "../include/constant.hpp"
 
-
-
-int main(){
+int main()
+{
     
-    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE);
     SetTargetFPS(FPS);
+    Simulation simulation{WINDOW_WIDTH, WINDOW_HEIGHT, CELL_SIZE};
+
+    while(WindowShouldClose() == false) 
+    {
+
+        if(IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+        {
+            Vector2 mousePosition = GetMousePosition();
+            int row = mousePosition.y / CELL_SIZE;
+            int column = mousePosition.x / CELL_SIZE;
+            simulation.ToggleCell(row, column);
+        }
+        if(IsKeyPressed(KEY_ENTER))
+        {
+            simulation.Start();
     
+        }
+        else if(IsKeyPressed(KEY_SPACE))
+        {
+            simulation.Stop();
+        }
+        else if(IsKeyPressed(KEY_F))
+        {
+            FPS += 2;
+            SetTargetFPS(FPS);
+        }
+        else if(IsKeyPressed(KEY_S))
+        {
+            if(FPS > 5)
+            {
+                FPS -= 2;
+                SetTargetFPS(FPS);
+            }
+        }
+        else if(IsKeyPressed(KEY_R))
+        {
+            simulation.CreateRandomState();
+        }
+        else if(IsKeyPressed(KEY_C))
+        {
+            simulation.ClearGrid();
+        }
 
 
-    while(!WindowShouldClose()){SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+        simulation.Update(); 
+
+        
         BeginDrawing();
-        ClearBackground(RAYWHITE);
-        DrawText(WINDOW_TITLE, (GetScreenWidth() - MeasureText(WINDOW_TITLE, 20))/2, 10, 20, DARKGRAY);
-        DrawGridFunction(GRID_ROWS, GRID_COLS, CELL_SIZE);
+        ClearBackground(WHITE);
+        simulation.Draw();
         EndDrawing();
-        PollInputEvents(); 
+        PollInputEvents();
         SwapScreenBuffer();
     }
-    
-
 
     CloseWindow();
-
 }

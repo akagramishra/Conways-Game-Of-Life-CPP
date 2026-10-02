@@ -1,29 +1,71 @@
+#include <raylib.h>
 #include "Grid.hpp"
 
-void DrawGridFunction(int rows, int cols, int cellSize)
+void Grid::Draw()
 {
-    for (int i = 2; i <= rows; ++i) {
-        DrawLine(0, i * cellSize, cols * cellSize, i * cellSize, LIGHTGRAY);
-    }
-
-    for (int j = 1; j <= cols; ++j) {
-        DrawLine(j * cellSize, 2*cellSize, j * cellSize, rows * cellSize, LIGHTGRAY);
+    for(int row = 1; row < rows; row ++) 
+    {
+        for(int column = 0; column < columns; column++)
+        {
+            Color color = cells[row][column] ? Color{0, 0, 255, 225} : Color{255, 55, 55, 255};
+            DrawRectangle(column * cellSize, row * cellSize, cellSize - 1, cellSize - 1, color);
+        }
     }
 }
 
-std::vector<Vector2> Vector2ToGridCoordinates(Vector2 position, int cellSize, int rows, int cols)
+void Grid::SetValue(int row, int column, int value)
 {
-    std::vector<Vector2> gridCoordinates;
+    if(IsWithinBounds(row, column))
+    {
+        cells[row][column] = value;
+    }
+}
 
-    for(int i = 0; i < rows; ++i) {
-        for(int j = 0; j < cols; ++j) {
-            Vector2 cellPosition = { j * cellSize, i * cellSize };
-            if (position.x >= cellPosition.x && position.x < cellPosition.x + cellSize &&
-                position.y >= cellPosition.y && position.y < cellPosition.y + cellSize) {
-                gridCoordinates.push_back(cellPosition);
-            }
+int Grid::GetValue(int row, int column)
+{
+    if(IsWithinBounds(row, column))
+    {
+        return cells[row][column];
+    }
+    return 0;
+}
+
+bool Grid::IsWithinBounds(int row, int column)
+{
+    if(row >= 0 && row < rows && column >= 0 && column < columns)
+    {
+        return true;
+    }
+    return false;
+}
+
+void Grid::FillRandom()
+{
+    for(int row = 0; row < rows; row ++)
+    {
+        for(int column = 0; column < columns; column++)
+        {
+            int randomValue = GetRandomValue(0, 4);
+            cells[row][column] = (randomValue == 4) ? 1 : 0;
         }
     }
+}
 
-    return gridCoordinates;
+void Grid::Clear()
+{
+    for(int row = 0; row < rows; row++)
+    {
+        for(int column = 0; column < columns; column++)
+        {
+            cells[row][column] = 0;
+        }
+    }
+}
+
+void Grid::ToggleCell(int row, int column)
+{
+    if(IsWithinBounds(row, column))
+    {
+        cells[row][column] = !cells[row][column];
+    }
 }
